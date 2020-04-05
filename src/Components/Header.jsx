@@ -1,60 +1,22 @@
-import { Component } from 'react';
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
 
 
 
-export default class Header extends Component {
-
-    constructor(props) {
-        super(props);
-        this.getTime = this.getTime.bind(this);
-    }
-
-    componentDidMount() {
-        setInterval(this.getTime, 1000);
-    }
-
-    getTime() {
-        let date = new Date();
-        let h = date.getHours();
-        let m = date.getMinutes();
-        let ses = ' AM';
-        if (h > 12) {
-            h -= 12;
-            ses = ' PM'
-        }
-
-        if (h === 0) {
-            h = 12;
-        }
-
-        h = h < 10 ? `0${h}` : h;
-        m = m < 10 ? `0${m}` : m;
-        this.setState({ time: `${h}:${m}${ses}` });
-    }
-
-
-
-    render() {
-        return (
-            <div>
-                <ButtonGroup>
-                    <Button onClick={() => this.props.setType('insects')}>Insects</Button>
-                    <Button onClick={() => this.props.setType('fish')}>Fish</Button>
-                </ButtonGroup>
-                    &nbsp;
-                <ButtonGroup>
-                    <Button onClick={() => this.props.setHemisphere('north')}>North</Button>
-                    <Button onClick={() => this.props.setHemisphere('south')}>South</Button>
-                </ButtonGroup>
-
-                <div>
-                    {this.state && this.state.time}
-                </div>
-            </div>
-        );
-    }
-
+export default function Header(props) {
+  return (
+    <div>
+      <RadioGroup value={props.type} onChange={(e) => props.setType(e.target.value)}>
+        <FormControlLabel value="insect" control={<Radio />} label="Insect" />
+        <FormControlLabel value="fish" control={<Radio />} label="Fish" />
+      </RadioGroup>
+      <RadioGroup value={props.hemisphere} onChange={(e) => props.setHemisphere(e.target.value)}>
+        <FormControlLabel value="north" control={<Radio />} label="North" />
+        <FormControlLabel value="south" control={<Radio />} label="South" />
+      </RadioGroup>
+      <div>
+        {props.time}
+      </div>
+    </div >
+  );
 }

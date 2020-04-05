@@ -3,16 +3,31 @@ import Container from '@material-ui/core/Container';
 import Header from './Header';
 import bugList from '../Constants/Insects';
 import fishList from '../Constants/Fish';
+
 export default class AcApp extends Component {
 
   constructor() {
     super();
     this.onSetType = this.onSetType.bind(this);
     this.onSetHemisphere = this.onSetHemisphere.bind(this);
-    this.state = {};
-    this.createLocalCache();
+    this.getTime = this.getTime.bind(this);
+    this.getCalendar = this.getCalendar.bind(this);
+    this.date = new Date();
+    this.state = {
+      type: 'insect',
+      hemisphere: 'north'
+    };
 
-    var today = new Date();
+  }
+
+  componentDidMount() {
+    this.getTimeInterval = setInterval(this.getTime, 1000);
+    this.getCalendarInterval = setInterval(this.getCalendar, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.getTimeInterval);
+    clearInterval(this.getCalendarInterval);
   }
 
   createLocalCache() {
@@ -171,23 +186,56 @@ export default class AcApp extends Component {
   //   }
   // }
 
+  getTime() {
+    let date = new Date();
+    let h = date.getHours();
+    let m = date.getMinutes();
+    let ses = ' AM';
+    if (h > 12) {
+      h -= 12;
+      ses = ' PM'
+    }
+
+    if (h === 0) {
+      h = 12;
+    }
+
+    h = h < 10 ? `0${h}` : h;
+    m = m < 10 ? `0${m}` : m;
+    this.setState({ time: `${h}:${m}${ses}` });
+  }
+
+  getCalendar() {
+    const months = [
+      "January", "February", "March",
+      "April", "May", "June",
+      "July", "August", "September",
+      "October", "November", "December"
+    ];
+
+    this.setState({ calendar: `${months[this.date.getMonth()]} ${this.date.getDate()}` });
+  }
+
+
 
   onSetType(type) {
     this.setState({ type });
-    console.log(this.state);
   }
 
   onSetHemisphere(hemisphere) {
 
     this.setState({ hemisphere });
-    console.log(this.state);
   }
   render() {
     return (
       <div>
+
         <Container maxWidth="sm">
           <Header
-            currentDate={this.today}
+            calendar={this.state.calendar}
+            type={this.state.type}
+            hemisphere={this.state.hemisphere}
+            time={this.state.time}
             setType={this.onSetType}
             setHemisphere={this.onSetHemisphere} />
         </Container>
