@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Blathers from '../assets/Blathers.png';
+import { IconButton, Collapse } from '@material-ui/core';
 
 
 const useStyles = makeStyles({
@@ -32,6 +33,20 @@ const useStyles = makeStyles({
 
 export default function CritterCards(props) {
   const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  function getMonth(idx) {
+    const months = [
+      'Jan', 'Feb', 'Mar',
+      'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep',
+      'Oct', 'Nov', 'Dec'];
+
+    return months[idx - 1];
+  }
 
   return (
     <Card className={classes.root}>
@@ -44,13 +59,32 @@ export default function CritterCards(props) {
           adjective
         </Typography>
         <Typography variant="body2" component="div">
-          <img className={classes.blathers} alt="Blathers" src={Blathers} />
-          <p>{props.critter.desc}</p>
+          <ul style={{ listStyleType: 'none', textAlign: 'left' }}>
+            <li>Available: {getMonth(props.critter.smonth)} - {getMonth(props.critter.emonth)}</li>
+            <li>Time: {props.critter.stime} - {props.critter.etime}</li>
+            <li>Location: {props.critter.loc}</li>
+          </ul>
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
+      <CardActions disableSpacing>
+
+        <IconButton
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+          disableRipple
+          size='small'
+        >
+          <img className={classes.blathers} alt="Blathers" src={Blathers} />
+        </IconButton>
       </CardActions>
-    </Card>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>
+            <sub>{props.critter.desc}</sub>
+          </Typography>
+        </CardContent>
+      </Collapse>
+    </Card >
   );
 }

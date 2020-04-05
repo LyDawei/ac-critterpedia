@@ -23,13 +23,16 @@ export default class AcApp extends Component {
       type: 'insect',
       hemisphere: 'north'
     };
-  }
 
-  componentDidMount() {
+    this.bugCards = bugList.map(bug => <CritterCards key={bug.no} critter={bug} key={bug.name} />);
+    this.fishCards = fishList.map(fish => <CritterCards key={fish.no} critter={fish} />);
     this.getTime();
     this.getCalendar();
     this.getDay();
-    this.getTimeInterval = setInterval(this.getTime, 1000); // every second.
+  }
+
+  componentDidMount() {
+    this.getTimeInterval = setInterval(this.getTime, 30000); // every 30 seconds.
     this.getCalendarInterval = setInterval(this.getCalendar, 3600000); // every hour
     this.getDayInterval = setInterval(this.getDay, 3600000); // every hour
   }
@@ -196,9 +199,8 @@ export default class AcApp extends Component {
   // }
 
   getTime = () => {
-    let date = new Date();
-    let h = date.getHours();
-    let m = date.getMinutes();
+    let h = this.date.getHours();
+    let m = this.date.getMinutes();
     let ses = ' AM';
     if (h > 12) {
       h -= 12;
@@ -245,7 +247,7 @@ export default class AcApp extends Component {
   render() {
 
     return (
-      <MuiThemeProvider>
+      <div>
         <Header
           calendar={this.calendar}
           type={this.state.type}
@@ -256,11 +258,11 @@ export default class AcApp extends Component {
           setHemisphere={this.onSetHemisphere} />
         <div style={style.critterCard}>
           {this.state.type === 'insect' ?
-            bugList.map(bug => <CritterCards critter={bug} key={bug.name} />)
-            : fishList.map(fish => <CritterCards critter={fish} />)}
+            this.bugCards
+            : this.fishCards}
         </div>
 
-      </MuiThemeProvider>
+      </div>
     );
   }
 }
