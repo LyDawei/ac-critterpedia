@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/ac-critterpedia/static/css/main.715d2b15.chunk.css",
-    "main.js": "/ac-critterpedia/static/js/main.43addb42.chunk.js",
-    "main.js.map": "/ac-critterpedia/static/js/main.43addb42.chunk.js.map",
+    "main.js": "/ac-critterpedia/static/js/main.525d0fcc.chunk.js",
+    "main.js.map": "/ac-critterpedia/static/js/main.525d0fcc.chunk.js.map",
     "runtime-main.js": "/ac-critterpedia/static/js/runtime-main.72652d25.js",
     "runtime-main.js.map": "/ac-critterpedia/static/js/runtime-main.72652d25.js.map",
-    "static/js/2.e9588bdd.chunk.js": "/ac-critterpedia/static/js/2.e9588bdd.chunk.js",
-    "static/js/2.e9588bdd.chunk.js.map": "/ac-critterpedia/static/js/2.e9588bdd.chunk.js.map",
+    "static/js/2.b5974e43.chunk.js": "/ac-critterpedia/static/js/2.b5974e43.chunk.js",
+    "static/js/2.b5974e43.chunk.js.map": "/ac-critterpedia/static/js/2.b5974e43.chunk.js.map",
     "index.html": "/ac-critterpedia/index.html",
-    "precache-manifest.3626b06c1046022579964075fe267be4.js": "/ac-critterpedia/precache-manifest.3626b06c1046022579964075fe267be4.js",
+    "precache-manifest.f3514ae86a4b9ddb988818d17819162e.js": "/ac-critterpedia/precache-manifest.f3514ae86a4b9ddb988818d17819162e.js",
     "service-worker.js": "/ac-critterpedia/service-worker.js",
     "static/css/main.715d2b15.chunk.css.map": "/ac-critterpedia/static/css/main.715d2b15.chunk.css.map",
-    "static/js/2.e9588bdd.chunk.js.LICENSE.txt": "/ac-critterpedia/static/js/2.e9588bdd.chunk.js.LICENSE.txt"
+    "static/js/2.b5974e43.chunk.js.LICENSE.txt": "/ac-critterpedia/static/js/2.b5974e43.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.72652d25.js",
-    "static/js/2.e9588bdd.chunk.js",
+    "static/js/2.b5974e43.chunk.js",
     "static/css/main.715d2b15.chunk.css",
-    "static/js/main.43addb42.chunk.js"
+    "static/js/main.525d0fcc.chunk.js"
   ]
 }
