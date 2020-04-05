@@ -8,7 +8,8 @@ const style = {
   critterCard: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'center'
   }
 };
 
@@ -71,11 +72,11 @@ export default function AcApp() {
   }
 
   const onSetType = (type) => {
-    setType({ type });
+    setType(type);
   }
 
   const onSetHemisphere = (hemisphere) => {
-    setHemisphere({ hemisphere });
+    setHemisphere(hemisphere);
   }
 
   getTime();
