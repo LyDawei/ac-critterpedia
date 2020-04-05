@@ -34,6 +34,7 @@ export default function Header(props) {
     <div className="header">
       <AppBar position="static">
         <Toolbar>
+
           <Typography variant="h6" className={classes.title}>
             Critterpedia
           </Typography>

@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
-import Container from '@material-ui/core/Container';
 import Header from './Header';
+import CritterCards from './CritterCards';
 import bugList from '../Constants/Insects';
 import fishList from '../Constants/Fish';
+import { MuiThemeProvider } from '@material-ui/core';
+
+const style = {
+  critterCard: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }
+};
 
 export default class AcApp extends Component {
 
@@ -14,9 +23,6 @@ export default class AcApp extends Component {
       type: 'insect',
       hemisphere: 'north'
     };
-
-
-
   }
 
   componentDidMount() {
@@ -205,7 +211,7 @@ export default class AcApp extends Component {
 
     h = h < 10 ? `0${h}` : h;
     m = m < 10 ? `0${m}` : m;
-    this.setState({ time: `${h}:${m}${ses}` });
+    this.time = `${h}:${m}${ses}`;
   }
 
   getCalendar = () => {
@@ -216,7 +222,7 @@ export default class AcApp extends Component {
       "October", "November", "December"
     ];
 
-    this.setState({ calendar: `${months[this.date.getMonth()]} ${this.date.getDate()}` });
+    this.calendar = `${months[this.date.getMonth()]} ${this.date.getDate()}`;
   }
 
   getDay = () => {
@@ -224,10 +230,8 @@ export default class AcApp extends Component {
       'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
     ];
 
-    this.setState({ day: days[this.date.getDay()] });
+    this.day = days[this.date.getDay()];
   }
-
-
 
   onSetType = (type) => {
     this.setState({ type });
@@ -237,18 +241,26 @@ export default class AcApp extends Component {
 
     this.setState({ hemisphere });
   }
+
   render() {
+
     return (
-      <div>
+      <MuiThemeProvider>
         <Header
-          calendar={this.state.calendar}
+          calendar={this.calendar}
           type={this.state.type}
           hemisphere={this.state.hemisphere}
-          time={this.state.time}
-          day={this.state.day}
+          time={this.time}
+          day={this.day}
           setType={this.onSetType}
           setHemisphere={this.onSetHemisphere} />
-      </div>
+        <div style={style.critterCard}>
+          {this.state.type === 'insect' ?
+            bugList.map(bug => <CritterCards critter={bug} key={bug.name} />)
+            : fishList.map(fish => <CritterCards critter={fish} />)}
+        </div>
+
+      </MuiThemeProvider>
     );
   }
 }
