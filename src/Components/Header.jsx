@@ -16,6 +16,8 @@ export default function Header(props) {
       </RadioGroup>
       <div>
         {props.time}
+        &nbsp;
+        {props.day}
       </div>
     </div >
   );

@@ -8,21 +8,24 @@ export default class AcApp extends Component {
 
   constructor() {
     super();
-    this.onSetType = this.onSetType.bind(this);
-    this.onSetHemisphere = this.onSetHemisphere.bind(this);
-    this.getTime = this.getTime.bind(this);
-    this.getCalendar = this.getCalendar.bind(this);
+
     this.date = new Date();
     this.state = {
       type: 'insect',
       hemisphere: 'north'
     };
 
+
+
   }
 
   componentDidMount() {
-    this.getTimeInterval = setInterval(this.getTime, 1000);
-    this.getCalendarInterval = setInterval(this.getCalendar, 1000);
+    this.getTime();
+    this.getCalendar();
+    this.getDay();
+    this.getTimeInterval = setInterval(this.getTime, 1000); // every second.
+    this.getCalendarInterval = setInterval(this.getCalendar, 3600000); // every hour
+    this.getDayInterval = setInterval(this.getDay, 3600000); // every hour
   }
 
   componentWillUnmount() {
@@ -30,7 +33,7 @@ export default class AcApp extends Component {
     clearInterval(this.getCalendarInterval);
   }
 
-  createLocalCache() {
+  createLocalCache = () => {
     if (localStorage.getItem("Bitterlingchk") == null) {
       fishList.forEach(function (fish) {
         localStorage.setItem(fish.name + "chk", fish.chk);
@@ -186,7 +189,7 @@ export default class AcApp extends Component {
   //   }
   // }
 
-  getTime() {
+  getTime = () => {
     let date = new Date();
     let h = date.getHours();
     let m = date.getMinutes();
@@ -205,7 +208,7 @@ export default class AcApp extends Component {
     this.setState({ time: `${h}:${m}${ses}` });
   }
 
-  getCalendar() {
+  getCalendar = () => {
     const months = [
       "January", "February", "March",
       "April", "May", "June",
@@ -216,13 +219,21 @@ export default class AcApp extends Component {
     this.setState({ calendar: `${months[this.date.getMonth()]} ${this.date.getDate()}` });
   }
 
+  getDay = () => {
+    const days = [
+      'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+    ];
+
+    this.setState({ day: days[this.date.getDay()] });
+  }
 
 
-  onSetType(type) {
+
+  onSetType = (type) => {
     this.setState({ type });
   }
 
-  onSetHemisphere(hemisphere) {
+  onSetHemisphere = (hemisphere) => {
 
     this.setState({ hemisphere });
   }
@@ -236,6 +247,7 @@ export default class AcApp extends Component {
             type={this.state.type}
             hemisphere={this.state.hemisphere}
             time={this.state.time}
+            day={this.state.day}
             setType={this.onSetType}
             setHemisphere={this.onSetHemisphere} />
         </Container>
