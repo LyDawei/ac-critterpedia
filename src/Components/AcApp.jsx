@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
 import CritterCards from './CritterCards';
 import bugList from '../Constants/Insects';
 import fishList from '../Constants/Fish';
-import { MuiThemeProvider } from '@material-ui/core';
 
 const style = {
   critterCard: {
@@ -13,36 +12,52 @@ const style = {
   }
 };
 
-export default class AcApp extends Component {
+export default function AcApp() {
+  const date = new Date();
+  const [type, setType] = useState('insect');
+  const [hemisphere, setHemisphere] = useState('north');
 
-  constructor() {
-    super();
+  const bugCards = bugList.map(bug => <CritterCards key={bug.no} critter={bug} />);
+  const fishCards = fishList.map(fish => <CritterCards key={fish.no} critter={fish} />);
+  let time;
+  let calendar;
+  let day;
 
-    this.date = new Date();
-    this.state = {
-      type: 'insect',
-      hemisphere: 'north'
-    };
+  const getTime = () => {
+    let h = date.getHours();
+    let m = date.getMinutes();
+    let ses = ' AM';
+    if (h > 12) {
+      h -= 12;
+      ses = ' PM'
+    }
 
-    this.bugCards = bugList.map(bug => <CritterCards key={bug.no} critter={bug} key={bug.name} />);
-    this.fishCards = fishList.map(fish => <CritterCards key={fish.no} critter={fish} />);
-    this.getTime();
-    this.getCalendar();
-    this.getDay();
+    if (h === 0) {
+      h = 12;
+    }
+
+    h = h < 10 ? `0${h}` : h;
+    m = m < 10 ? `0${m}` : m;
+    time = `${h}:${m}${ses}`;
   }
 
-  componentDidMount() {
-    this.getTimeInterval = setInterval(this.getTime, 30000); // every 30 seconds.
-    this.getCalendarInterval = setInterval(this.getCalendar, 3600000); // every hour
-    this.getDayInterval = setInterval(this.getDay, 3600000); // every hour
+  const getCalendar = () => {
+    const months = [
+      "January", "February", "March",
+      "April", "May", "June",
+      "July", "August", "September",
+      "October", "November", "December"
+    ];
+
+    calendar = `${months[date.getMonth()]} ${date.getDate()}`;
   }
 
-  componentWillUnmount() {
-    clearInterval(this.getTimeInterval);
-    clearInterval(this.getCalendarInterval);
+  const getDay = () => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    day = days[date.getDay()];
   }
 
-  createLocalCache = () => {
+  const createLocalCache = () => {
     if (localStorage.getItem("Bitterlingchk") == null) {
       fishList.forEach(function (fish) {
         localStorage.setItem(fish.name + "chk", fish.chk);
@@ -55,11 +70,34 @@ export default class AcApp extends Component {
     }
   }
 
+  const onSetType = (type) => {
+    setType({ type });
+  }
+
+  const onSetHemisphere = (hemisphere) => {
+    setHemisphere({ hemisphere });
+  }
+
+  getTime();
+  getCalendar();
+  getDay();
+  setInterval(getTime, 30000); // every 30 seconds.
+  setInterval(getCalendar, 3600000); // every hour
+  setInterval(getDay, 3600000); // every hour
+  createLocalCache();
+
+  // componentWillUnmount() {
+  //   clearInterval(getTimeInterval);
+  //   clearInterval(getCalendarInterval);
+  // }
+
+
+
   // showAvail() {
-  //   if (this.state.type == "fish")
-  //     fishList.forEach(this.checkAvail)
+  //   if (state.type == "fish")
+  //     fishList.forEach(checkAvail)
   //   else
-  //     bugList.forEach(this.checkAvail)
+  //     bugList.forEach(checkAvail)
 
   // }
 
@@ -198,71 +236,22 @@ export default class AcApp extends Component {
   //   }
   // }
 
-  getTime = () => {
-    let h = this.date.getHours();
-    let m = this.date.getMinutes();
-    let ses = ' AM';
-    if (h > 12) {
-      h -= 12;
-      ses = ' PM'
-    }
-
-    if (h === 0) {
-      h = 12;
-    }
-
-    h = h < 10 ? `0${h}` : h;
-    m = m < 10 ? `0${m}` : m;
-    this.time = `${h}:${m}${ses}`;
-  }
-
-  getCalendar = () => {
-    const months = [
-      "January", "February", "March",
-      "April", "May", "June",
-      "July", "August", "September",
-      "October", "November", "December"
-    ];
-
-    this.calendar = `${months[this.date.getMonth()]} ${this.date.getDate()}`;
-  }
-
-  getDay = () => {
-    const days = [
-      'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
-    ];
-
-    this.day = days[this.date.getDay()];
-  }
-
-  onSetType = (type) => {
-    this.setState({ type });
-  }
-
-  onSetHemisphere = (hemisphere) => {
-
-    this.setState({ hemisphere });
-  }
-
-  render() {
-
-    return (
-      <div>
-        <Header
-          calendar={this.calendar}
-          type={this.state.type}
-          hemisphere={this.state.hemisphere}
-          time={this.time}
-          day={this.day}
-          setType={this.onSetType}
-          setHemisphere={this.onSetHemisphere} />
-        <div style={style.critterCard}>
-          {this.state.type === 'insect' ?
-            this.bugCards
-            : this.fishCards}
-        </div>
-
+  return (
+    <div>
+      <Header
+        calendar={calendar}
+        type={type}
+        hemisphere={hemisphere}
+        time={time}
+        day={day}
+        setType={onSetType}
+        setHemisphere={onSetHemisphere} />
+      <div style={style.critterCard}>
+        {type === 'insect' ?
+          bugCards : fishCards}
       </div>
-    );
-  }
+
+    </div>
+  );
+
 }
