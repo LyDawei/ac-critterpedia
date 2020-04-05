@@ -240,17 +240,14 @@ export default class AcApp extends Component {
   render() {
     return (
       <div>
-
-        <Container maxWidth="sm">
-          <Header
-            calendar={this.state.calendar}
-            type={this.state.type}
-            hemisphere={this.state.hemisphere}
-            time={this.state.time}
-            day={this.state.day}
-            setType={this.onSetType}
-            setHemisphere={this.onSetHemisphere} />
-        </Container>
+        <Header
+          calendar={this.state.calendar}
+          type={this.state.type}
+          hemisphere={this.state.hemisphere}
+          time={this.state.time}
+          day={this.state.day}
+          setType={this.onSetType}
+          setHemisphere={this.onSetHemisphere} />
       </div>
     );
   }
