@@ -18,9 +18,7 @@ export default function AcApp() {
   const date = new Date();
   const [type, setType] = useState('insect');
   const [hemisphere, setHemisphere] = useState('north');
-
-  const bugCards = bugList.map(bug => <CritterCards key={bug.no} critter={bug} />);
-  const fishCards = fishList.map(fish => <CritterCards key={fish.no} critter={fish} />);
+  const theme = createMuiTheme(_theme);
   let time;
   let calendar;
   let day;
@@ -80,6 +78,35 @@ export default function AcApp() {
     setHemisphere(hemisphere);
   }
 
+  const isAvailableThisTime = (critter) => {
+    const currHour = date.getHours();
+    if (currHour < critter.stime) return false;
+    if (currHour > critter.etime) return false;
+
+    return true;
+  }
+
+  const isAvailableThisMonth = (critter) => {
+    const currMonth = date.getMonth() + 1;
+
+    // currmonth is 9
+    // assume smonth = 8
+    // emonth = 6
+    if (critter.smonth > critter.emonth) {
+      if (currMonth > critter.smonth) return false;
+      if (currMonth > critter.emonth) return false;
+    } else {
+      if (currMonth < critter.smonth) return false;
+      if (currMonth > critter.emonth) return false;
+    }
+
+
+    return true;
+  }
+
+  const bugCards = bugList.map(bug => <CritterCards key={bug.no} critter={bug} available={isAvailableThisMonth(bug)} />);
+  const fishCards = fishList.map(fish => <CritterCards key={fish.no} critter={fish} available={isAvailableThisMonth(fish)} />);
+
   getTime();
   getCalendar();
   getDay();
@@ -100,7 +127,6 @@ export default function AcApp() {
   //     fishList.forEach(checkAvail)
   //   else
   //     bugList.forEach(checkAvail)
-
   // }
 
   // checkAvail(item) {
@@ -237,9 +263,6 @@ export default function AcApp() {
   //     }
   //   }
   // }
-
-  const theme = createMuiTheme(_theme);
-
 
   return (
     <MuiThemeProvider theme={theme}>

@@ -5,7 +5,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Blathers from '../assets/Blathers.png';
-import { IconButton, Collapse } from '@material-ui/core';
+import { IconButton, Collapse, Checkbox } from '@material-ui/core';
+import CritterChip from './CritterChip';
 // import * as bugs from '../assets/bugs/index.js';
 
 
@@ -56,13 +57,16 @@ export default function CritterCards(props) {
         </Typography>
         {/* <img alt={props.critter.name} src={bugs[props.critter._label]} /> */}
         {/* <img alt={props.critter.name} src={bugs[props.critter._label]} /> */}
+        <CritterChip></CritterChip>
         <Typography variant="body2" component="div">
           <ul style={{ listStyleType: 'none', textAlign: 'left' }}>
             <li>Available: {getMonth(props.critter.smonth)} - {getMonth(props.critter.emonth)}</li>
             <li>Time: {props.critter.stime} - {props.critter.etime}</li>
             <li>Location: {props.critter.loc}</li>
           </ul>
+
         </Typography>
+        <Checkbox checked={props.available} />
       </CardContent>
       <CardActions disableSpacing>
 
