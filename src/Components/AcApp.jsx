@@ -3,6 +3,7 @@ import Header from './Header';
 import CritterCards from './CritterCards';
 import bugList from '../Constants/Insects';
 import fishList from '../Constants/Fish';
+import { MuiThemeProvider, useTheme, createMuiTheme } from '@material-ui/core';
 
 const style = {
   critterCard: {
@@ -237,8 +238,32 @@ export default function AcApp() {
   //   }
   // }
 
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        // light: will be calculated from palette.primary.main,
+        main: '#0288D1',
+        // dark: will be calculated from palette.primary.main,
+        // contrastText: will be calculated to contrast with palette.primary.main
+      },
+      secondary: {
+        main: '#8BC34A',
+        // dark: will be calculated from palette.secondary.main,
+        contrastText: '#FFFFFF',
+      },
+      // Used by `getContrastText()` to maximize the contrast between
+      // the background and the text.
+      contrastThreshold: 3,
+      // Used by the functions below to shift a color's luminance by approximately
+      // two indexes within its tonal palette.
+      // E.g., shift from Red 500 to Red 300 or Red 700.
+      tonalOffset: 0.2,
+    }
+  });
+
+
   return (
-    <div>
+    <MuiThemeProvider theme={theme}>
       <Header
         calendar={calendar}
         type={type}
@@ -252,7 +277,7 @@ export default function AcApp() {
           bugCards : fishCards}
       </div>
 
-    </div>
+    </ MuiThemeProvider>
   );
 
 }

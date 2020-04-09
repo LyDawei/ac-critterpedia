@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Blathers from '../assets/Blathers.png';
 import { IconButton, Collapse } from '@material-ui/core';
+// import * as bugs from '../assets/bugs/index.js';
 
 
 const useStyles = makeStyles({
@@ -55,9 +55,7 @@ export default function CritterCards(props) {
           {props.critter.name}
         </Typography>
         {/* <img alt={props.critter.name} src={bugs[props.critter._label]} /> */}
-        <Typography className={classes.pos} color="textSecondary">
-          adjective
-        </Typography>
+        {/* <img alt={props.critter.name} src={bugs[props.critter._label]} /> */}
         <Typography variant="body2" component="div">
           <ul style={{ listStyleType: 'none', textAlign: 'left' }}>
             <li>Available: {getMonth(props.critter.smonth)} - {getMonth(props.critter.emonth)}</li>
