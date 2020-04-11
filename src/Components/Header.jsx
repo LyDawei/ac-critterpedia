@@ -1,4 +1,4 @@
-import React from 'react';
+import React from './node_modules/react';
 import {
   AppBar,
   RadioGroup,
@@ -6,8 +6,8 @@ import {
   FormControlLabel,
   Toolbar,
   Typography
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+} from './node_modules/@material-ui/core';
+import { makeStyles } from './node_modules/@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
 

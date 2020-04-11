@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from './node_modules/react';
 import Header from './Header';
 import CritterCards from './CritterCards';
-import bugList from '../Constants/Insects';
-import fishList from '../Constants/Fish';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
-import _theme from '../theme';
+import bugList from '../constants/Insects';
+import fishList from '../constants/Fish';
+import { MuiThemeProvider } from './node_modules/@material-ui/core';
+import theme from '../themes/theme';
 const style = {
   critterCard: {
     display: 'flex',
@@ -18,7 +18,6 @@ export default function AcApp() {
   const date = new Date();
   const [type, setType] = useState('insect');
   const [hemisphere, setHemisphere] = useState('north');
-  const theme = createMuiTheme(_theme);
   let time;
   let calendar;
   let day;
@@ -27,7 +26,7 @@ export default function AcApp() {
     let h = date.getHours();
     let m = date.getMinutes();
     let ses = ' AM';
-    if (h > 12) {
+    if (h >= 12) {
       h -= 12;
       ses = ' PM'
     }
@@ -87,6 +86,10 @@ export default function AcApp() {
   }
 
   const isAvailableThisMonth = (critter) => {
+    if (critter.smonth2) {
+      //TODO: check if current date is inside this as well.
+    }
+
     const currMonth = date.getMonth() + 1;
 
     // currmonth is 9
@@ -104,8 +107,29 @@ export default function AcApp() {
     return true;
   }
 
-  const bugCards = bugList.map(bug => <CritterCards key={bug.no} critter={bug} available={isAvailableThisMonth(bug)} />);
-  const fishCards = fishList.map(fish => <CritterCards key={fish.no} critter={fish} available={isAvailableThisMonth(fish)} />);
+  const handleOnCaught = (critter) => {
+    if (type === 'insect') {
+      bugList.find(x => x.no === critter.no).chk = !critter.chk;
+    } else {
+      fishList.find(x => x.no === critter.no).chk = !critter.chk;
+    }
+    localStorage.setItem(`${critter.name}chk`, +critter.chk);
+  }
+
+  const bugCards = bugList.map(bug =>
+    <CritterCards
+      onCaught={handleOnCaught}
+      key={bug.no}
+      critter={bug}
+      available={isAvailableThisMonth(bug)} />);
+  const fishCards = fishList.map(fish =>
+    <CritterCards
+      onCaught={handleOnCaught}
+      key={fish.no}
+      critter={fish}
+      available={isAvailableThisMonth(fish)} />);
+
+
 
   getTime();
   getCalendar();
