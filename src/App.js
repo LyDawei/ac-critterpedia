@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import AcApp from './Components/AcApp.jsx';
+import AcApp from './components/AcApp.jsx';
 function App() {
   return (
     <div className="App">

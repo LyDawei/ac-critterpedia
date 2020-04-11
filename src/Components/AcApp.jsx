@@ -1,10 +1,12 @@
-import React, { useState } from './node_modules/react';
+import React from 'react';
 import Header from './Header';
 import CritterCards from './CritterCards';
-import bugList from '../constants/Insects';
-import fishList from '../constants/Fish';
-import { MuiThemeProvider } from './node_modules/@material-ui/core';
+import { MuiThemeProvider } from '@material-ui/core';
 import theme from '../themes/theme';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as critterActions from '../actions/critter';
+
 const style = {
   critterCard: {
     display: 'flex',
@@ -14,14 +16,12 @@ const style = {
   }
 };
 
-export default function AcApp() {
+function AcApp(props) {
   const date = new Date();
-  const [type, setType] = useState('insect');
-  const [hemisphere, setHemisphere] = useState('north');
   let time;
   let calendar;
   let day;
-
+  let displayCards;
   const getTime = () => {
     let h = date.getHours();
     let m = date.getMinutes();
@@ -56,25 +56,30 @@ export default function AcApp() {
     day = days[date.getDay()];
   }
 
-  const createLocalCache = () => {
-    if (localStorage.getItem("Bitterlingchk") == null) {
-      fishList.forEach(function (fish) {
-        localStorage.setItem(fish.name + "chk", fish.chk);
-      })
-    }
-    if (localStorage.getItem("Common Butterflychk") == null) {
-      bugList.forEach(function (bug) {
-        localStorage.setItem(bug.name + "chk", bug.chk);
-      })
-    }
-  }
+  // const createLocalCache = () => {
+  //   if (localStorage.getItem("Bitterlingchk") == null) {
+  //     fishList.forEach(function (fish) {
+  //       localStorage.setItem(fish.name + "chk", fish.chk);
+  //     })
+  //   }
+  //   if (localStorage.getItem("Common Butterflychk") == null) {
+  //     bugList.forEach(function (bug) {
+  //       localStorage.setItem(bug.name + "chk", bug.chk);
+  //     })
+  //   }
+  // }
 
   const onSetType = (type) => {
-    setType(type);
+    props.setType(type);
+    if (type === 'bugs') {
+      displayCards = bugCards;
+    } else {
+      displayCards = fishCards;
+    }
   }
 
   const onSetHemisphere = (hemisphere) => {
-    setHemisphere(hemisphere);
+    props.setHemisphere(hemisphere);
   }
 
   const isAvailableThisTime = (critter) => {
@@ -108,26 +113,32 @@ export default function AcApp() {
   }
 
   const handleOnCaught = (critter) => {
-    if (type === 'insect') {
-      bugList.find(x => x.no === critter.no).chk = !critter.chk;
+    if (props.type === 'bugs') {
+      props.bugs.find(x => x.no === critter.no).chk = !critter.chk;
     } else {
-      fishList.find(x => x.no === critter.no).chk = !critter.chk;
+      props.fish.find(x => x.no === critter.no).chk = !critter.chk;
     }
     localStorage.setItem(`${critter.name}chk`, +critter.chk);
   }
 
-  const bugCards = bugList.map(bug =>
+  const bugCards = props.bugs.map(bug =>
     <CritterCards
       onCaught={handleOnCaught}
       key={bug.no}
       critter={bug}
       available={isAvailableThisMonth(bug)} />);
-  const fishCards = fishList.map(fish =>
+  const fishCards = props.fish.map(fish =>
     <CritterCards
       onCaught={handleOnCaught}
       key={fish.no}
       critter={fish}
       available={isAvailableThisMonth(fish)} />);
+
+  if (props.type === 'bugs') {
+    displayCards = bugCards;
+  } else {
+    displayCards = fishCards;
+  }
 
 
 
@@ -137,7 +148,7 @@ export default function AcApp() {
   setInterval(getTime, 30000); // every 30 seconds.
   setInterval(getCalendar, 3600000); // every hour
   setInterval(getDay, 3600000); // every hour
-  createLocalCache();
+  // createLocalCache();
 
   // componentWillUnmount() {
   //   clearInterval(getTimeInterval);
@@ -287,23 +298,34 @@ export default function AcApp() {
   //     }
   //   }
   // }
-
   return (
     <MuiThemeProvider theme={theme}>
       <Header
         calendar={calendar}
-        type={type}
-        hemisphere={hemisphere}
+        type={props.type}
+        hemisphere={props.hemisphere}
         time={time}
         day={day}
         setType={onSetType}
         setHemisphere={onSetHemisphere} />
       <div style={style.critterCard}>
-        {type === 'insect' ?
-          bugCards : fishCards}
+        {displayCards}
       </div>
 
     </ MuiThemeProvider>
   );
+}
+
+function mapStateToProps(state) {
+  return {
+    type: state.critter.setting,
+    hemisphere: state.critter.hemisphere,
+    bugs: state.critter.bugs,
+    fish: state.critter.fish
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return { ...bindActionCreators(critterActions, dispatch) };
 
 }
+export default connect(mapStateToProps, mapDispatchToProps)(AcApp);

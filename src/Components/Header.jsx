@@ -1,4 +1,4 @@
-import React from './node_modules/react';
+import React from 'react';
 import {
   AppBar,
   RadioGroup,
@@ -6,8 +6,8 @@ import {
   FormControlLabel,
   Toolbar,
   Typography
-} from './node_modules/@material-ui/core';
-import { makeStyles } from './node_modules/@material-ui/core/styles';
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -40,7 +40,7 @@ export default function Header(props) {
           </Typography>
           <div className={classes.options}>
             <RadioGroup className={classes.radioGroup} value={props.type} onChange={(e) => props.setType(e.target.value)}>
-              <FormControlLabel value="insect" control={<Radio />} label="Insect" />
+              <FormControlLabel value="bugs" control={<Radio />} label="Bugs" />
               <FormControlLabel value="fish" control={<Radio />} label="Fish" />
             </RadioGroup>
 

@@ -1,20 +1,20 @@
-import React from './node_modules/react';
-import { makeStyles } from './node_modules/@material-ui/core/styles';
-import Card from './node_modules/@material-ui/core/Card';
-import CardActions from './node_modules/@material-ui/core/CardActions';
-import CardContent from './node_modules/@material-ui/core/CardContent';
-import Typography from './node_modules/@material-ui/core/Typography';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 import Blathers from '../assets/Blathers.png';
-import List from './node_modules/@material-ui/core/List';
-import ListItem from './node_modules/@material-ui/core/ListItem';
-import ListItemText from './node_modules/@material-ui/core/ListItemText';
-import ListItemAvatar from './node_modules/@material-ui/core/ListItemAvatar';
-import Avatar from './node_modules/@material-ui/core/Avatar';
-import Divider from './node_modules/@material-ui/core/Divider';
-import { Collapse, Switch, FormGroup, FormControlLabel } from './node_modules/@material-ui/core';
-import EventIcon from './node_modules/@material-ui/icons/Event';
-import ScheduleIcon from './node_modules/@material-ui/icons/Schedule';
-import ExploreIcon from './node_modules/@material-ui/icons/Explore';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import Divider from '@material-ui/core/Divider';
+import { Collapse, Switch, FormGroup, FormControlLabel } from '@material-ui/core';
+import EventIcon from '@material-ui/icons/Event';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import ExploreIcon from '@material-ui/icons/Explore';
 // import * as bugs from '../assets/bugs/index.js';
 
 
