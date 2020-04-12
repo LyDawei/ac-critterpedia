@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/ac-critterpedia/precache-manifest.d66bb66178f1a2de58b345b98ab51b7e.js"
+  "/ac-critterpedia/precache-manifest.c2522a34ed33f2b12baa32c088b944ca.js"
 );
 
 self.addEventListener('message', (event) => {
