@@ -18,29 +18,30 @@ import ExploreIcon from '@material-ui/icons/Explore';
 // import * as bugs from '../assets/bugs/index.js';
 
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 360,
-    maxWidth: '20%',
-    margin: '1vh',
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-  blathers: {
-    float: 'left'
-  }
-});
 
 export default function CritterCards(props) {
+  const useStyles = makeStyles({
+    root: {
+      maxWidth: '20%',
+      margin: '1vh',
+      borderColor: props.available ? 'green' : 'red'
+    },
+    bullet: {
+      display: 'inline-block',
+      margin: '0 2px',
+      transform: 'scale(0.8)',
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
+    },
+    blathers: {
+      float: 'left'
+    }
+  });
+
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -62,7 +63,7 @@ export default function CritterCards(props) {
   };
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} variant='outlined'>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           {props.critter.name}
@@ -114,6 +115,13 @@ export default function CritterCards(props) {
           </ListItem>
         </List>
       </CardContent>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>
+            <sub>{props.critter.desc}</sub>
+          </Typography>
+        </CardContent>
+      </Collapse>
       <CardActions >
         <FormGroup>
           <FormControlLabel
@@ -128,13 +136,6 @@ export default function CritterCards(props) {
         </FormGroup>
       </CardActions>
 
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>
-            <sub>{props.critter.desc}</sub>
-          </Typography>
-        </CardContent>
-      </Collapse>
     </Card >
   );
 }
