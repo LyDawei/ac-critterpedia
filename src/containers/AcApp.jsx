@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from './Header';
-import CritterCards from './CritterCards';
+import Header from '../components/Header';
+import CritterCards from '../components/CritterCards';
 import { MuiThemeProvider, Tabs, Tab } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
 
@@ -8,7 +8,7 @@ import theme from '../themes/theme';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as critterActions from '../actions/critter';
-import CritterPanel from './CritterPanel';
+import CritterPanel from '../components/CritterPanel';
 
 function AcApp(props) {
   const date = new Date();
@@ -124,9 +124,6 @@ function AcApp(props) {
     setTab(index);
   };
 
-  function importAll(r) {
-    return r.kets().map(r);
-  }
 
   return (
     <MuiThemeProvider theme={theme}>

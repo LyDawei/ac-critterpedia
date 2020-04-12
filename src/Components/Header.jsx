@@ -33,7 +33,7 @@ export default function Header(props) {
 
   return (
     <div className="header">
-      <AppBar position="static">
+      <AppBar position="sticky">
         <Toolbar>
           <IconButton
             edge="start"

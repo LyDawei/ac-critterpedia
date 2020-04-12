@@ -23,7 +23,7 @@ export default function CritterCards(props) {
   const useStyles = makeStyles({
     root: {
       minWidth: 260,
-      maxWidth: '20%',
+      maxWidth: '100vw',
       margin: '1vh',
       borderColor: props.availableThisMonth && props.availableThisTime ? 'lightgreen' : (props.availableThisMonth && !props.availableThisTime ? 'orange' : 'pink'),
       borderWidth: 'medium'
