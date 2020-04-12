@@ -22,9 +22,11 @@ import ExploreIcon from '@material-ui/icons/Explore';
 export default function CritterCards(props) {
   const useStyles = makeStyles({
     root: {
+      minWidth: 260,
       maxWidth: '20%',
       margin: '1vh',
-      borderColor: props.available ? 'green' : 'red'
+      borderColor: props.available ? 'lightgreen' : 'pink',
+      borderWidth: 'medium'
     },
     bullet: {
       display: 'inline-block',
