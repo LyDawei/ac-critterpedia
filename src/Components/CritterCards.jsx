@@ -25,7 +25,7 @@ export default function CritterCards(props) {
       minWidth: 260,
       maxWidth: '20%',
       margin: '1vh',
-      borderColor: props.available ? 'lightgreen' : 'pink',
+      borderColor: props.availableThisMonth && props.availableThisTime ? 'lightgreen' : (props.availableThisMonth && !props.availableThisTime ? 'orange' : 'pink'),
       borderWidth: 'medium'
     },
     bullet: {
@@ -41,6 +41,9 @@ export default function CritterCards(props) {
     },
     blathers: {
       float: 'left'
+    },
+    time: {
+      backgroundColor: props.availableThisMonth && !props.availableThisTime ? 'lightyellow' : 'white'
     }
   });
 
@@ -70,6 +73,7 @@ export default function CritterCards(props) {
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           {props.critter.name}
         </Typography>
+        <img alt={props.critter.name} src={`${process.env.PUBLIC_URL}/critter/${props.critter.name}.png`} />
         <List dense disablePadding>
           <ListItem>
             <ListItemAvatar>
@@ -86,7 +90,7 @@ export default function CritterCards(props) {
                 secondary={`${getMonth(props.critter.smonth2)} - ${getMonth(props.critter.emonth2)}`} /> : null}
           </ListItem>
           <Divider variant="inset" component="li" />
-          <ListItem>
+          <ListItem className={classes.time}>
             <ListItemAvatar>
               <Avatar>
                 <ScheduleIcon />
@@ -129,6 +133,7 @@ export default function CritterCards(props) {
           <FormControlLabel
             control={
               <Switch size="small"
+                disableRipple
                 checked={!!props.critter.chk}
                 onChange={handleCaughtToggle} />}
             label="Caught"

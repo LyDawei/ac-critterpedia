@@ -15,6 +15,7 @@ function AcApp(props) {
   let time;
   let calendar;
   let day;
+
   const getTime = () => {
     let h = date.getHours();
     let m = date.getMinutes();
@@ -51,22 +52,6 @@ function AcApp(props) {
 
   const [tab, setTab] = React.useState(0);
 
-
-  // const createLocalCache = () => {
-  //   if (localStorage.getItem("Bitterlingchk") == null) {
-  //     fishList.forEach(function (fish) {
-  //       localStorage.setItem(fish.name + "chk", fish.chk);
-  //     })
-  //   }
-  //   if (localStorage.getItem("Common Butterflychk") == null) {
-  //     bugList.forEach(function (bug) {
-  //       localStorage.setItem(bug.name + "chk", bug.chk);
-  //     })
-  //   }
-  // }
-
-
-
   const onSetHemisphere = (hemisphere) => {
     props.setHemisphere(hemisphere);
   }
@@ -85,10 +70,6 @@ function AcApp(props) {
     }
 
     const currMonth = date.getMonth() + 1;
-
-    // currmonth is 9
-    // assume smonth = 8
-    // emonth = 6
     if (critter.smonth > critter.emonth) {
       if (currMonth > critter.smonth) return false;
       if (currMonth > critter.emonth) return false;
@@ -111,13 +92,15 @@ function AcApp(props) {
       onCaught={handleOnCaught}
       key={bug.name}
       critter={bug}
-      available={isAvailableThisMonth(bug)} />);
+      availableThisMonth={isAvailableThisMonth(bug)}
+      availableThisTime={isAvailableThisTime(bug)} />);
   const fishCards = props.fish.map(fish =>
     <CritterCards
       onCaught={handleOnCaught}
       key={fish.name}
       critter={fish}
-      available={isAvailableThisMonth(fish)} />);
+      availableThisMonth={isAvailableThisMonth(fish)}
+      availableThisTime={isAvailableThisTime(fish)} />);
 
   getTime();
   getCalendar();
@@ -125,156 +108,6 @@ function AcApp(props) {
   setInterval(getTime, 30000); // every 30 seconds.
   setInterval(getCalendar, 3600000); // every hour
   setInterval(getDay, 3600000); // every hour
-  // createLocalCache();
-
-  // componentWillUnmount() {
-  //   clearInterval(getTimeInterval);
-  //   clearInterval(getCalendarInterval);
-  // }
-
-
-
-  // showAvail() {
-  //   if (state.type == "fish")
-  //     fishList.forEach(checkAvail)
-  //   else
-  //     bugList.forEach(checkAvail)
-  // }
-
-  // checkAvail(item) {
-  //   document.getElementById(item.no).style.backgroundColor = "darkred";
-  //   if (item.smonth > item.emonth) {
-  //     if ((month <= item.emonth || month >= item.smonth)) {
-  //       document.getElementById(item.no).style.backgroundColor = "orange";
-  //       if (item.stime > item.etime) {
-  //         if ((time <= item.etime || time >= item.stime)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       else {
-  //         if ((time <= item.etime && time >= item.stime)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       if (item.stime2 > item.etime2) {
-  //         if ((time <= item.etime2 || time >= item.stime2)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       else {
-  //         if ((time <= item.etime2 && time >= item.stime2)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //     }
-  //   }
-  //   else {
-  //     if ((month <= item.emonth && month >= item.smonth)) {
-  //       document.getElementById(item.no).style.backgroundColor = "orange";
-  //       if (item.stime > item.etime) {
-  //         if ((time <= item.etime || time >= item.stime)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       else {
-  //         if ((time <= item.etime && time >= item.stime)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       if (item.stime2 > item.etime2) {
-  //         if ((time <= item.etime2 || time >= item.stime2)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       else {
-  //         if ((time <= item.etime2 && time >= item.stime2)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //     }
-  //   }
-  //   if (item.smonth2 > item.emonth2) {
-  //     if ((month <= item.emonth2 || month >= item.smonth2)) {
-  //       document.getElementById(item.no).style.backgroundColor = "orange";
-  //       if (item.stime > item.etime) {
-  //         if ((time <= item.etime || time >= item.stime)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       else {
-  //         if ((time <= item.etime && time >= item.stime)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       if (item.stime2 > item.etime2) {
-  //         if ((time <= item.etime2 || time >= item.stime2)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       else {
-  //         if ((time <= item.etime2 && time >= item.stime2)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //     }
-  //   }
-  //   else {
-  //     if ((month <= item.emonth2 && month >= item.smonth2)) {
-  //       document.getElementById(item.no).style.backgroundColor = "orange";
-  //       if (item.stime > item.etime) {
-  //         if ((time <= item.etime || time >= item.stime)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       else {
-  //         if ((time <= item.etime && time >= item.stime)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       if (item.stime2 > item.etime2) {
-  //         if ((time <= item.etime2 || time >= item.stime2)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //       else {
-  //         if ((time <= item.etime2 && time >= item.stime2)) {
-  //           document.getElementById(item.no).style.backgroundColor = "green";
-  //         }
-  //       }
-  //     }
-  //   }
-  //   var critterimage = "img/" + list + "/" + item.name + ".png";
-  //   if (list == "fish")
-  //     []
-  //   document.getElementById(item.no + " image").src = critterimage;
-
-  //   if (screen.width < 800 || window.innerWidth < 800) {
-  //     document.getElementById(item.no + " image").height = 48;
-  //     document.getElementById(item.no + " image").width = 48;
-  //   }
-  //   else {
-  //     document.getElementById(item.no + " image").height = 96;
-  //     document.getElementById(item.no + " image").width = 96;
-  //   }
-  //   item.chk = localStorage.getItem(item.name + "chk");
-  //   if (item.chk == 0) {
-  //     document.getElementById("chk" + item.no).src = "img/uncheck.png";
-  //     if (screen.width < 800 || window.innerWidth < 800) {
-  //       document.getElementById("chk" + item.no).height = 24;
-  //       document.getElementById("chk" + item.no).width = 24;
-  //     }
-  //   }
-  //   else {
-  //     if (list == "fish")
-  //       document.getElementById("chk" + item.no).src = "img/check.png";
-  //     else
-  //       document.getElementById("chk" + item.no).src = "img/checkb.png";
-  //     if (screen.width < 800 || window.innerWidth < 800) {
-  //       document.getElementById("chk" + item.no).height = 24;
-  //       document.getElementById("chk" + item.no).width = 24;
-  //     }
-  //   }
-  // }
 
   const a11yProps = (index) => {
     return {
@@ -291,6 +124,10 @@ function AcApp(props) {
     setTab(index);
   };
 
+  function importAll(r) {
+    return r.kets().map(r);
+  }
+
   return (
     <MuiThemeProvider theme={theme}>
       <Header
@@ -305,6 +142,7 @@ function AcApp(props) {
         aria-label="simple tabs example"
         variant='fullWidth'
         indicatorColor="primary"
+        disableRipple
         textColor="primary">
         <Tab label="Bugs" {...a11yProps(0)} />
         <Tab label="Fish" {...a11yProps(1)} />
@@ -333,8 +171,10 @@ function mapStateToProps(state) {
     fish: state.critter.fish
   };
 }
+
 function mapDispatchToProps(dispatch) {
   return { ...bindActionCreators(critterActions, dispatch) };
 
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(AcApp);
