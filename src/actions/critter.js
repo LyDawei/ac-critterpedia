@@ -1,9 +1,9 @@
 import { ACTIONTYPES } from './actionTypes';
 
-export const toggleCaught = (critter) => {
+export const toggleCaught = (critterId) => {
   return {
     type: ACTIONTYPES.TOGGLE_CAUGHT,
-    critter
+    critterId
   };
 }
 

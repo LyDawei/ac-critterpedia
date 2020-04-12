@@ -1,11 +1,14 @@
 import React from 'react';
 import Header from './Header';
 import CritterCards from './CritterCards';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider, Tabs, Tab } from '@material-ui/core';
+import SwipeableViews from 'react-swipeable-views';
+
 import theme from '../themes/theme';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as critterActions from '../actions/critter';
+import CritterPanel from './CritterPanel';
 
 const style = {
   critterCard: {
@@ -21,7 +24,6 @@ function AcApp(props) {
   let time;
   let calendar;
   let day;
-  let displayCards;
   const getTime = () => {
     let h = date.getHours();
     let m = date.getMinutes();
@@ -56,6 +58,9 @@ function AcApp(props) {
     day = days[date.getDay()];
   }
 
+  const [tab, setTab] = React.useState(0);
+
+
   // const createLocalCache = () => {
   //   if (localStorage.getItem("Bitterlingchk") == null) {
   //     fishList.forEach(function (fish) {
@@ -69,14 +74,7 @@ function AcApp(props) {
   //   }
   // }
 
-  const onSetType = (type) => {
-    props.setType(type);
-    if (type === 'bugs') {
-      displayCards = bugCards;
-    } else {
-      displayCards = fishCards;
-    }
-  }
+
 
   const onSetHemisphere = (hemisphere) => {
     props.setHemisphere(hemisphere);
@@ -118,29 +116,21 @@ function AcApp(props) {
     } else {
       props.fish.find(x => x.no === critter.no).chk = !critter.chk;
     }
-    localStorage.setItem(`${critter.name}chk`, +critter.chk);
+    props.toggleCaught(critter.no);
   }
 
   const bugCards = props.bugs.map(bug =>
     <CritterCards
       onCaught={handleOnCaught}
-      key={bug.no}
+      key={bug.name}
       critter={bug}
       available={isAvailableThisMonth(bug)} />);
   const fishCards = props.fish.map(fish =>
     <CritterCards
       onCaught={handleOnCaught}
-      key={fish.no}
+      key={fish.name}
       critter={fish}
       available={isAvailableThisMonth(fish)} />);
-
-  if (props.type === 'bugs') {
-    displayCards = bugCards;
-  } else {
-    displayCards = fishCards;
-  }
-
-
 
   getTime();
   getCalendar();
@@ -298,6 +288,22 @@ function AcApp(props) {
   //     }
   //   }
   // }
+
+  const a11yProps = (index) => {
+    return {
+      id: `full-width-tab-${index}`,
+      'aria-controls': `full-width-tabpanel-${index}`,
+    };
+  }
+
+  const handleTabSwitch = (e, v) => {
+    setTab(v);
+  };
+
+  const handleChangeIndex = (index) => {
+    setTab(index);
+  };
+
   return (
     <MuiThemeProvider theme={theme}>
       <Header
@@ -306,11 +312,28 @@ function AcApp(props) {
         hemisphere={props.hemisphere}
         time={time}
         day={day}
-        setType={onSetType}
         setHemisphere={onSetHemisphere} />
-      <div style={style.critterCard}>
-        {displayCards}
-      </div>
+
+      <Tabs value={tab}
+        onChange={handleTabSwitch}
+        aria-label="simple tabs example"
+        variant='fullWidth'
+        indicatorColor="primary"
+        textColor="primary">
+        <Tab label="Bugs" {...a11yProps(0)} />
+        <Tab label="Fish" {...a11yProps(1)} />
+      </Tabs>
+      <SwipeableViews
+        index={tab}
+        onChangeIndex={handleChangeIndex}
+      >
+        <CritterPanel value={tab} index={0}>
+          {bugCards}
+        </CritterPanel>
+        <CritterPanel value={tab} index={1}>
+          {fishCards}
+        </CritterPanel>
+      </SwipeableViews>
 
     </ MuiThemeProvider>
   );

@@ -5,17 +5,18 @@ import {
   Radio,
   FormControlLabel,
   Toolbar,
-  Typography
+  Typography,
+  IconButton
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
-
   title: {
     flexGrow: 1,
   },
   options: {
-    flexGrow: 2,
+    flexGrow: 4,
     display: 'flex',
     flexDirection: 'row'
   },
@@ -34,16 +35,18 @@ export default function Header(props) {
     <div className="header">
       <AppBar position="static">
         <Toolbar>
-
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="open drawer"
+          >
+            <MenuIcon />
+          </IconButton>
           <Typography variant="h6" className={classes.title}>
             Critterpedia
           </Typography>
           <div className={classes.options}>
-            <RadioGroup className={classes.radioGroup} value={props.type} onChange={(e) => props.setType(e.target.value)}>
-              <FormControlLabel value="bugs" control={<Radio />} label="Bugs" />
-              <FormControlLabel value="fish" control={<Radio />} label="Fish" />
-            </RadioGroup>
-
             <RadioGroup className={classes.radioGroup} value={props.hemisphere} onChange={(e) => props.setHemisphere(e.target.value)}>
               <FormControlLabel value="north" control={<Radio />} label="North" />
               <FormControlLabel value="south" control={<Radio />} label="South" />

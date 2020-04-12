@@ -17,9 +17,9 @@ export default (state = initialState, payload) => {
       return { ...state, setting: payload.setting };
     case ACTIONTYPES.SET_HEMISPHERE:
       return { ...state, hemisphere: payload.hemisphere };
-      break;
     case ACTIONTYPES.TOGGLE_CAUGHT:
-      break;
+
+      return { ...state };
     default:
       return state;
   }

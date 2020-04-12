@@ -9,11 +9,9 @@ import Store from './store';
 const StoreInstance = Store();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={StoreInstance}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={StoreInstance}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
 

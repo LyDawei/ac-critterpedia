@@ -21,7 +21,7 @@ import ExploreIcon from '@material-ui/icons/Explore';
 const useStyles = makeStyles({
   root: {
     minWidth: 360,
-    maxWidth: '30%',
+    maxWidth: '20%',
     margin: '1vh',
   },
   bullet: {
