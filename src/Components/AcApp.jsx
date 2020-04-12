@@ -10,15 +10,6 @@ import { connect } from 'react-redux';
 import * as critterActions from '../actions/critter';
 import CritterPanel from './CritterPanel';
 
-const style = {
-  critterCard: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center'
-  }
-};
-
 function AcApp(props) {
   const date = new Date();
   let time;
@@ -111,12 +102,8 @@ function AcApp(props) {
   }
 
   const handleOnCaught = (critter) => {
-    if (props.type === 'bugs') {
-      props.bugs.find(x => x.no === critter.no).chk = !critter.chk;
-    } else {
-      props.fish.find(x => x.no === critter.no).chk = !critter.chk;
-    }
-    props.toggleCaught(critter.no);
+
+    props.toggleCaught({ type: critter.type, critterId: critter.no });
   }
 
   const bugCards = props.bugs.map(bug =>
@@ -308,7 +295,6 @@ function AcApp(props) {
     <MuiThemeProvider theme={theme}>
       <Header
         calendar={calendar}
-        type={props.type}
         hemisphere={props.hemisphere}
         time={time}
         day={day}
